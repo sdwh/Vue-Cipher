@@ -1,7 +1,11 @@
 <template>
+  <h1>鍵泥棒のメソッド</h1>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">HASH</router-link> |
+    <router-link to="/about">Encrypt</router-link> |
+    <router-link to="/about">Encode</router-link> |
+    <a target="_blank" href="https://sdwh.dev">sdwh.dev</a>
   </div>
   <router-view/>
 </template>
@@ -21,6 +25,8 @@
   a {
     font-weight: bold;
     color: #2c3e50;
+    margin-right: 20px;
+    margin-left: 20px;
 
     &.router-link-exact-active {
       color: #42b983;
