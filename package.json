@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && cd .\\dist && git init && git add -A && git commit -m 'deploy' && git push -f https://github.com/sdwh/Vue-Cipher.git master:gh-pages",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

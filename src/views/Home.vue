@@ -2,15 +2,28 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/Lock-With-Key.svg" style="width:200px">
   </div>
-  Context <input type="text" v-model="inputtext" autofocus style="margin-right:30px"/>
-  AES Key <input type="text" v-model="ekey" />
-  <div class="block">
-    <div class="algo"><span class="title">SHA1</span> {{ convertSha1()}}</div>
-    <div class="algo"><span class="title">SHA256</span> {{ convertSha256()}}</div>
-    <div class="algo"><span class="title">MD5</span> {{ convertMd5()}}</div>
-    <div class="algo"><span class="title">Base64</span> {{ convertBase64()}}</div>
+  <div class="input-block">
+  Context <input type="text" class="input-text"
+    v-model="inputtext" autofocus/>
   </div>
-  <hr/>
+  <div class="block">
+    <div class="algo">
+      <span class="title">SHA1</span>
+      <span class="select-all"> {{ convertSha1()}} </span>
+    </div>
+    <div class="algo">
+      <span class="title">SHA256</span>
+      <span class="select-all"> {{ convertSha256()}} </span>
+    </div>
+    <div class="algo">
+      <span class="title">MD5</span>
+      <span class="select-all"> {{ convertMd5()}} </span>
+    </div>
+    <div class="algo">
+      <span class="title">Base64</span>
+      <span class="select-all"> {{ convertBase64()}} </span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -66,5 +79,21 @@ export default {
   font-size: 2rem;
   padding: 10px;
   border-radius: 3px;
+}
+.select-all{
+  user-select: all;
+  overflow-wrap: break-word;
+}
+
+.input-block{
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.input-text{
+  padding: 5px;
+  font-size:2rem;
+  width: 90%;
+  display: inline-block;
 }
 </style>
