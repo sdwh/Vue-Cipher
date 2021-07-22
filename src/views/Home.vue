@@ -4,9 +4,9 @@
   </div>
   <div class="input-block">
   Context <input type="text" class="input-text"
-    v-model="inputtext" autofocus/>
+    v-model.trim="inputtext"/>
   </div>
-  <div class="block">
+  <div class="block-style">
     <div class="algo">
       <span class="title">SHA1</span>
       <span class="select-all"> {{ convertSha1()}} </span>
@@ -22,6 +22,10 @@
     <div class="algo">
       <span class="title">Base64</span>
       <span class="select-all"> {{ convertBase64()}} </span>
+    </div>
+    <div class="algo">
+      <span class="title">Base64 Decode</span>
+      <span class="select-all"> {{ convertDecodeBase64()}} </span>
     </div>
   </div>
 </template>
@@ -57,11 +61,39 @@ export default {
     convertBase64() {
       return Base64.stringify(UTF8.parse(this.inputtext));
     },
+    convertDecodeBase64() {
+      let result = '';
+      try {
+        result = UTF8.stringify(Base64.parse(this.inputtext));
+      } catch (error) {
+        result = 'Can\'t Decode From Base64';
+      }
+      return result;
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss">
+$desktop: 'min-width: 1024px';
+$pad: 'max-width: 1024px';
+$mobile: 'max-width: 600px';
+
+@mixin desktop{
+  @media($desktop){
+    @content;
+  }
+}
+@mixin pad{
+  @media($pad){
+    @content;
+  }
+}
+@mixin mobile{
+  @media($mobile){
+    @content;
+  }
+}
 .title{
   color: black;
   font-weight: 700;
@@ -71,7 +103,7 @@ export default {
   text-align: left;
   margin: 10px 0;
 }
-.block{
+.block-style{
   width:95%;
   margin:30px auto;
   background-color: darksalmon;
@@ -79,6 +111,9 @@ export default {
   font-size: 2rem;
   padding: 10px;
   border-radius: 3px;
+  @include mobile{
+    font-size: 1.5rem;
+  }
 }
 .select-all{
   user-select: all;
@@ -93,7 +128,7 @@ export default {
 .input-text{
   padding: 5px;
   font-size:2rem;
-  width: 90%;
+  width: 95%;
   display: inline-block;
 }
 </style>

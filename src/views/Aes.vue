@@ -1,0 +1,83 @@
+<template>
+  <div class="aes">
+    <img alt="Vue logo" src="../assets/Locked.svg"
+      style="width:200px" v-if="aesType == 'encrypt'">
+    <img alt="Vue logo" src="../assets/Key.svg" style="width:200px" v-if="aesType == 'decrypt'">
+  </div>
+  <div class="p-3 w-100 text-center mx-auto d-flex justify-content-around switchblock">
+    <div class="btn btn-primary" v-on:click="aesType = 'encrypt';inputtext='';">Encrypt</div>
+    <div class="btn btn-warning" v-on:click="aesType = 'decrypt';inputtext='';">Decrypt</div>
+  </div>
+  <div class="input-block">
+    {{ inputType }}
+    <input type="text" class="input-text" v-model.trim="inputtext"/>
+    Secret key
+    <input type="password" class="input-text" v-model.trim="secretkey"/>
+  </div>
+  <div class="block-style">
+    <div class="algo" v-if="aesType == 'encrypt'">
+      <span class="title">Cipher Text</span>
+      <span class="select-all"> {{ encrypt()}} </span>
+    </div>
+    <div class="algo" v-if="aesType == 'decrypt'">
+      <span class="title">Plain Text</span>
+      <span class="select-all"> {{ decrypt()}} </span>
+    </div>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import AES from 'crypto-js/aes';
+import UTF8 from 'crypto-js/enc-utf8';
+
+export default {
+  name: 'AES',
+  data() {
+    return {
+      secretkey: '',
+      inputtext: '',
+      cipher: '',
+      aesType: 'encrypt',
+    };
+  },
+  components: {
+  },
+  computed: {
+    inputType() {
+      return this.aesType === 'encrypt' ? 'Plain Text' : 'Cipher Text';
+    },
+  },
+  methods: {
+    encrypt() {
+      const ciphertext = AES.encrypt(this.inputtext, this.secretkey).toString();
+      this.cipher = ciphertext;
+      return (this.inputtext === '' || this.secretkey === '') ? '' : ciphertext;
+    },
+    decrypt() {
+      const bytes = AES.decrypt(this.inputtext, this.secretkey);
+      return bytes.toString(UTF8);
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+$desktop: 'min-width: 1024px';
+@mixin desktop{
+  @media($desktop){
+    @content;
+  }
+}
+
+.btn{
+  font-size: 1.5rem;
+}
+
+.switchblock{
+  width: 100%;
+  @include desktop{
+    width: 20% !important;
+  }
+}
+</style>
