@@ -4,7 +4,7 @@
       style="width:200px" v-if="aesType == 'encrypt'">
     <img alt="Vue logo" src="../assets/Key.svg" style="width:200px" v-if="aesType == 'decrypt'">
   </div>
-  <div class="p-3 w-100 text-center mx-auto d-flex justify-content-around switchblock">
+  <div class="p-3 w-100 text-center mx-auto d-flex switchblock">
     <div class="btn btn-primary" v-on:click="aesType = 'encrypt';inputtext='';">Encrypt</div>
     <div class="btn btn-warning" v-on:click="aesType = 'decrypt';inputtext='';">Decrypt</div>
   </div>
@@ -55,17 +55,25 @@ export default {
       return (this.inputtext === '' || this.secretkey === '') ? '' : ciphertext;
     },
     decrypt() {
-      const bytes = AES.decrypt(this.inputtext, this.secretkey);
-      return bytes.toString(UTF8);
+      try {
+        const bytes = AES.decrypt(this.inputtext, this.secretkey);
+        return bytes.toString(UTF8);
+      } catch (error) {
+        return '';
+      }
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-$desktop: 'min-width: 1024px';
+@mixin tablet{
+  @media(min-width: 1024px){
+    @content;
+  }
+}
 @mixin desktop{
-  @media($desktop){
+  @media(min-width: 1400px){
     @content;
   }
 }
@@ -76,8 +84,14 @@ $desktop: 'min-width: 1024px';
 
 .switchblock{
   width: 100%;
+  justify-content: space-around;
+  @include tablet(){
+    width: 33% !important;
+    justify-content: space-between;
+  }
   @include desktop{
-    width: 20% !important;
+    width: 25% !important;
+    justify-content: space-between;
   }
 }
 </style>
